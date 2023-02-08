@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Add, Books, Update, ErrorPage } from './pages';
-import './App.css';
+import './style.css';
 
 const App = () => {
    const router = createBrowserRouter([
@@ -15,7 +15,7 @@ const App = () => {
          errorElement: <ErrorPage />,
       },
       {
-         path: '/update',
+         path: '/update/:id',
          element: <Update />,
          errorElement: <ErrorPage />,
       },
