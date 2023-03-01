@@ -1,8 +1,8 @@
-import React from 'react';
-import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
-import { Home, Login, Register, Writer, Single } from './pages';
-import { Navbar, Footer } from './components';
-import './style.scss';
+import React from "react";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+import { Footer, Navbar } from "./components";
+import { Home, Login, Register, Single, Write } from "./pages";
+import "./style.scss";
 
 const Layout = () => {
    return (
@@ -16,29 +16,29 @@ const Layout = () => {
 
 const router = createBrowserRouter([
    {
-      path: '/',
+      path: "/",
       element: <Layout />,
       children: [
          {
-            path: '/',
+            path: "/",
             element: <Home />,
          },
          {
-            path: '/post/:id',
+            path: "/post/:id",
             element: <Single />,
          },
          {
-            path: '/writer',
-            element: <Writer />,
+            path: "/write",
+            element: <Write />,
          },
       ],
    },
    {
-      path: '/login',
+      path: "/login",
       element: <Login />,
    },
    {
-      path: '/register',
+      path: "/register",
       element: <Register />,
    },
 ]);
@@ -54,3 +54,4 @@ function App() {
 }
 
 export default App;
+

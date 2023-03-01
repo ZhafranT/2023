@@ -1,7 +1,7 @@
-import Home from './Home';
-import Login from './Login';
-import Register from './Register';
-import Single from './Single';
-import Writer from './Writer';
+import Home from "./Home";
+import Login from "./Login";
+import Register from "./Register";
+import Single from "./Single";
+import Write from "./Write";
 
-export { Home, Login, Register, Single, Writer };
+export { Home, Login, Register, Single, Write };
