@@ -1,5 +1,6 @@
-import Navbar from './Navbar';
-import Footer from './Footer';
-import Menu from './Menu';
+import { ErrorPage } from "./ErrorPage";
+import Footer from "./Footer";
+import Menu from "./Menu";
+import Navbar from "./Navbar";
 
-export { Navbar, Footer, Menu };
+export { Navbar, Footer, Menu, ErrorPage };

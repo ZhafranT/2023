@@ -1,6 +1,6 @@
 import React from "react";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
-import { Footer, Navbar } from "./components";
+import { ErrorPage, Footer, Navbar } from "./components";
 import { Home, Login, Register, Single, Write } from "./pages";
 import "./style.scss";
 
@@ -26,6 +26,7 @@ const router = createBrowserRouter([
          {
             path: "/post/:id",
             element: <Single />,
+            errorElement: <ErrorPage />,
          },
          {
             path: "/write",

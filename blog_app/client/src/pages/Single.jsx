@@ -1,38 +1,77 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Menu } from '../components';
+import axios from "axios";
+import moment from "moment";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Menu } from "../components";
+import { AuthContext } from "../context/authContext";
 
 const Single = () => {
+   const [post, setPost] = useState([]);
+
+   const location = useLocation();
+   const navigate = useNavigate();
+
+   const postId = location.pathname.split("/")[2];
+   const { currentUser } = useContext(AuthContext);
+
+   useEffect(() => {
+      const fetchData = async (req, res) => {
+         try {
+            const res = await axios.get(`/posts/${postId}`);
+            setPost(res.data);
+         } catch (error) {
+            console.log(error);
+         }
+      };
+      fetchData();
+   }, [postId]);
+
+   const handleDelete = async () => {
+      try {
+         await axios.delete(`/posts/${postId}`);
+         navigate("/");
+      } catch (error) {
+         console.log(error);
+      }
+   };
+
+   const getText = (html) => {
+      const doc = new DOMParser().parseFromString(html, "text/html");
+      return doc.body.textContent;
+   };
+
    return (
       <div className="single">
          <div className="content">
-            <img src="  " alt="" />
+            <img src={`../upload/${post?.img}`} alt="" />
             <div className="user">
-               <img src="" alt="" />
+               {post.userImg && <img src={post.userImg} alt="" />}
                <div className="info">
-                  <span>John</span>
-                  <p>posted 2 days age</p>
+                  <span>{post.username}</span>
+                  <p>posted {moment(post.date).fromNow()}</p>
                </div>
-               <div className="edit">
-                  <Link to={`/write?edit=2`}>
-                     <img src="" alt="" />
-                  </Link>
-                  <img src="" alt="" />
-               </div>
+               {currentUser
+                  ? currentUser.username === post.username && (
+                       <div className="edit">
+                          <Link to={`/write?edit=2`} state={post}>
+                             <img
+                                src="https://cdn-icons-png.flaticon.com/512/8989/8989084.png"
+                                alt=""
+                             />
+                          </Link>
+                          <img
+                             onClick={handleDelete}
+                             src="https://cdn-icons-png.flaticon.com/512/484/484611.png"
+                             alt=""
+                          />
+                       </div>
+                    )
+                  : null}
             </div>
-            <h1>Lorem ipsum dolor, sit amet consectetur adipisicing.</h1>
-            <p>
-               Lorem ipsum dolor sit, amet consectetur adipisicing elit. Odit vero voluptates nemo provident, porro eum
-               fugiat exercitationem temporibus! Exercitationem aliquid earum odit, saepe non veniam hic nam dolor
-               laboriosam illum debitis tenetur, id eos ipsum aut reiciendis illo numquam quibusdam. Reprehenderit ipsum
-               possimus soluta porro illum aliquam facilis atque esse, quam doloremque natus eius aperiam nisi dolor
-               consequuntur cum eos nemo velit et blanditiis dignissimos quas repellat. Error voluptatum earum beatae
-               deserunt, sint nulla distinctio quibusdam fugit nisi, sapiente veritatis nemo magnam, quod dolorum illo
-               ab natus corrupti est animi neque explicabo perferendis saepe inventore a! Necessitatibus saepe dolor
-               nemo.
-            </p>
+            <h1>{post.title}</h1>
+            {getText(post.desc)}
          </div>
-         <Menu />
+         <Menu cat={post.cat} />
       </div>
    );
 };
